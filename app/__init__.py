@@ -8,23 +8,29 @@ from config import Config
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app(config_class=Config):
-    app = Flask(__name__)
-    app.config.from_object(config_class)
+	app = Flask(__name__)
+	app.config.from_object(config_class)
 
-    # Inicializar extensiones
-    db.init_app(app)
-    migrate.init_app(app, db)
+	# Inicializar extensiones
+	db.init_app(app)
+	migrate.init_app(app, db)
 
-    # Importar modelos para que Flask-Migrate los detecte
-    from app import models
+	# Importar modelos para que Flask-Migrate los detecte
+	from app import models
 
-    # Asegurar que existe el directorio de uploads
-    import os
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+	# Asegurar que existe el directorio de uploads
+	import os
+	os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    # Registrar blueprints
-    from app.routes import main
-    app.register_blueprint(main)
+	# Registrar blueprints
+	from app.routes import main
+	from app.api import api
+	from app.company.routes import company
 
-    return app
+	app.register_blueprint(main)
+	app.register_blueprint(api)
+	app.register_blueprint(company)
+
+	return app

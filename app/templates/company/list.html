@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Empresas{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-4">Empresas Registradas</h1>
+  <a href="{{ url_for('company.new') }}" class="btn btn-primary mb-3">Nueva Empresa</a>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>RFC</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Ciudad</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for company in companies %}
+      <tr>
+        <td>{{ company.name }}</td>
+        <td>{{ company.rfc }}</td>
+        <td>{{ company.email }}</td>
+        <td>{{ company.phone }}</td>
+        <td>{{ company.city }}</td>
+        <td>
+          <a href="#" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+          <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
