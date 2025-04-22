@@ -16,6 +16,9 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    # Importar modelos para que Flask-Migrate los detecte
+    from app import models
+
     # Asegurar que existe el directorio de uploads
     import os
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

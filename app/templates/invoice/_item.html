@@ -1,0 +1,22 @@
+<div class="item-row border-bottom pb-3 mb-3">
+  <div class="row">
+    <div class="col-md-2">
+      {{ render_field(form.internal_id) }}
+    </div>
+    <div class="col-md-3">
+      {{ render_field(form.name) }}
+    </div>
+    <div class="col-md-3">
+      {{ render_field(form.description) }}
+    </div>
+    <div class="col-md-2">
+      {{ render_field(form.quantity) }}
+    </div>
+    <div class="col-md-2">
+      {{ render_field(form.unit_price) }}
+    </div>
+  </div>
+  <button type="button" class="btn btn-danger btn-sm remove-item">
+    <i class="fas fa-trash"></i>
+  </button>
+</div>
