@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+
+# Environment variables
+.env
+
+# Database
+*.db
+
+# IDE
+.vscode/
+.idea/
+
+# Uploaded files
+app/static/uploads/logos/*
+!app/static/uploads/logos/.gitkeep
