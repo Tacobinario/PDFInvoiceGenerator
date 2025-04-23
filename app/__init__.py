@@ -28,9 +28,13 @@ def create_app(config_class=Config):
 	from app.routes import main
 	from app.api import api
 	from app.company.routes import company
+	from app.customer.routes import customer
+	from app.invoice.routes import invoice
 
 	app.register_blueprint(main)
 	app.register_blueprint(api)
 	app.register_blueprint(company)
+	app.register_blueprint(customer)
+	app.register_blueprint(invoice)
 
 	return app

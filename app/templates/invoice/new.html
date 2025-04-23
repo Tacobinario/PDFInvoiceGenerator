@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva Factura{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-4">Crear Nueva Factura</h1>
+  <form id="invoiceForm" method="POST">
+    <div class="row">
+      <!-- Datos básicos -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="issuer_id" class="form-label">Empresa Emisora *</label>
+          <select class="form-select" id="issuer_id" name="issuer_id" required>
+            <option value="">Seleccione empresa...</option>
+            {% for company in companies %}
+            <option value="{{ company.id }}">{{ company.name }} ({{ company.rfc }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="customer_id" class="form-label">Cliente *</label>
+          <select class="form-select" id="customer_id" name="customer_id" required>
+            <option value="">Seleccione cliente...</option>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">{{ customer.name }} ({{ customer.rfc }})</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <!-- Datos de pago -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label for="payment_method" class="form-label">Método de Pago *</label>
+          <select class="form-select" id="payment_method" name="payment_method" required>
+            <option value="transfer">Transferencia Bancaria</option>
+            <option value="credit_card">Tarjeta de Crédito</option>
+            <option value="cash">Efectivo</option>
+            <option value="btc">Bitcoin</option>
+            <option value="eth">Ethereum</option>
+            <option value="doge">Dogecoin</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="currency" class="form-label">Moneda *</label>
+          <select class="form-select" id="currency" name="currency" required>
+            <option value="MXN">Peso Mexicano (MXN)</option>
+            <option value="USD">Dólar Estadounidense (USD)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items de la factura -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <h3>Items de la Factura</h3>
+        <button type="button" class="btn btn-secondary mb-3" id="addItem">Añadir Item</button>
+        <div id="itemsContainer">
+          <!-- Los items se agregarán dinámicamente aquí -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Totales -->
+    <div class="row mt-4">
+      <div class="col-md-6 offset-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="subtotal" class="form-label">Subtotal</label>
+              <input type="number" class="form-control" id="subtotal" name="subtotal" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="tax_amount" class="form-label">IVA (16%)</label>
+              <input type="number" class="form-control" id="tax_amount" name="tax_amount" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="total" class="form-label">Total</label>
+              <input type="number" class="form-control" id="total" name="total" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Crear Factura</button>
+        <a href="{{ url_for('invoice.list') }}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const itemsContainer = document.getElementById('itemsContainer');
+      const addItemButton = document.getElementById('addItem');
+      let itemCount = 0;
+
+      function createItemRow() {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'row mb-3 item-row';
+          itemDiv.innerHTML = `
+              <div class="col-md-2">
+                  <input type="text" class="form-control" name="items[${itemCount}][internal_id]" placeholder="ID" required>
+              </div>
+              <div class="col-md-3">
+                  <input type="text" class="form-control" name="items[${itemCount}][name]" placeholder="Nombre" required>
+              </div>
+              <div class="col-md-2">
+                  <input type="number" class="form-control quantity" name="items[${itemCount}][quantity]" placeholder="Cantidad" required>
+              </div>
+              <div class="col-md-2">
+                  <input type="number" class="form-control unit-price" name="items[${itemCount}][unit_price]" placeholder="Precio unitario" required>
+              </div>
+              <div class="col-md-2">
+                  <input type="number" class="form-control item-total" name="items[${itemCount}][total_price]" readonly>
+              </div>
+              <div class="col-md-1">
+                  <button type="button" class="btn btn-danger btn-sm remove-item">X</button>
+              </div>
+          `;
+          itemsContainer.appendChild(itemDiv);
+          itemCount++;
+          return itemDiv;
+      }
+
+      function calculateTotals() {
+          let subtotal = 0;
+          document.querySelectorAll('.item-total').forEach(total => {
+              subtotal += parseFloat(total.value || 0);
+          });
+
+          const taxRate = 0.16;
+          const taxAmount = subtotal * taxRate;
+          const total = subtotal + taxAmount;
+
+          document.getElementById('subtotal').value = subtotal.toFixed(2);
+          document.getElementById('tax_amount').value = taxAmount.toFixed(2);
+          document.getElementById('total').value = total.toFixed(2);
+      }
+
+      addItemButton.addEventListener('click', () => {
+          createItemRow();
+      });
+
+      itemsContainer.addEventListener('click', (e) => {
+          if (e.target.classList.contains('remove-item')) {
+              e.target.closest('.item-row').remove();
+              calculateTotals();
+          }
+      });
+
+      itemsContainer.addEventListener('input', (e) => {
+          if (e.target.classList.contains('quantity') || e.target.classList.contains('unit-price')) {
+              const row = e.target.closest('.item-row');
+              const quantity = parseFloat(row.querySelector('.quantity').value || 0);
+              const unitPrice = parseFloat(row.querySelector('.unit-price').value || 0);
+              row.querySelector('.item-total').value = (quantity * unitPrice).toFixed(2);
+              calculateTotals();
+          }
+      });
+
+      // Crear primer item por defecto
+      createItemRow();
+  });
+</script>
+{% endblock %}

@@ -11,40 +11,80 @@
       <!-- Datos básicos -->
       <div class="col-md-6">
         <div class="mb-3">
-          <label for="name" class="form-label">Nombre de la Empresa *</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+          {{ form.name.label(class="form-label") }}
+          {{ form.name(class="form-control") }}
+          {% if form.name.errors %}
+          {% for error in form.name.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="rfc" class="form-label">RFC *</label>
-          <input type="text" class="form-control" id="rfc" name="rfc" maxlength="13" required>
+          {{ form.rfc.label(class="form-label") }}
+          {{ form.rfc(class="form-control") }}
+          {% if form.rfc.errors %}
+          {% for error in form.rfc.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="email" class="form-label">Correo Electrónico *</label>
-          <input type="email" class="form-control" id="email" name="email" required>
+          {{ form.email.label(class="form-label") }}
+          {{ form.email(class="form-control") }}
+          {% if form.email.errors %}
+          {% for error in form.email.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="phone" class="form-label">Teléfono *</label>
-          <input type="tel" class="form-control" id="phone" name="phone" required>
+          {{ form.phone.label(class="form-label") }}
+          {{ form.phone(class="form-control") }}
+          {% if form.phone.errors %}
+          {% for error in form.phone.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
 
       <!-- Dirección y logo -->
       <div class="col-md-6">
         <div class="mb-3">
-          <label for="address" class="form-label">Dirección *</label>
-          <input type="text" class="form-control" id="address" name="address" required>
+          {{ form.address.label(class="form-label") }}
+          {{ form.address(class="form-control") }}
+          {% if form.address.errors %}
+          {% for error in form.address.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="city" class="form-label">Ciudad *</label>
-          <input type="text" class="form-control" id="city" name="city" required>
+          {{ form.city.label(class="form-label") }}
+          {{ form.city(class="form-control") }}
+          {% if form.city.errors %}
+          {% for error in form.city.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="postal_code" class="form-label">Código Postal *</label>
-          <input type="text" class="form-control" id="postal_code" name="postal_code" maxlength="5" required>
+          {{ form.postal_code.label(class="form-label") }}
+          {{ form.postal_code(class="form-control") }}
+          {% if form.postal_code.errors %}
+          {% for error in form.postal_code.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="mb-3">
-          <label for="logo" class="form-label">Logo de la Empresa</label>
-          <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+          {{ form.logo.label(class="form-label") }}
+          {{ form.logo(class="form-control") }}
+          {% if form.logo.errors %}
+          {% for error in form.logo.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {% endif %}
           <div id="logo-preview" class="mt-2"></div>
         </div>
       </div>
@@ -52,7 +92,7 @@
 
     <div class="row mt-3">
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">Registrar Empresa</button>
+        {{ form.submit(class="btn btn-primary") }}
         <a href="{{ url_for('company.list') }}" class="btn btn-secondary">Cancelar</a>
       </div>
     </div>
@@ -62,36 +102,26 @@
 
 {% block extra_js %}
 <script>
-  // Configuración específica para el formulario de empresa
+  // Preview de imagen
   document.addEventListener('DOMContentLoaded', function() {
-      // Configurar preview de logo
-      setupImagePreview('logo', 'logo-preview');
+      const logoInput = document.getElementById('logo');
+      const previewDiv = document.getElementById('logo-preview');
 
-      // Formatear el código postal automáticamente
-      const postalCodeInput = document.getElementById('postal_code');
-      if (postalCodeInput) {
-          postalCodeInput.addEventListener('input', function(e) {
-              this.value = this.value.replace(/\D/g, '').substr(0, 5);
-          });
-      }
-
-      // Formatear el teléfono automáticamente
-      const phoneInput = document.getElementById('phone');
-      if (phoneInput) {
-          phoneInput.addEventListener('input', function(e) {
-              let cleaned = this.value.replace(/\D/g, '');
-              if (cleaned.length > 10) cleaned = cleaned.substr(0, 10);
-              if (cleaned.length >= 10) {
-                  this.value = `(${cleaned.substr(0,3)}) ${cleaned.substr(3,3)}-${cleaned.substr(6)}`;
-              } else if (cleaned.length >= 6) {
-                  this.value = `(${cleaned.substr(0,3)}) ${cleaned.substr(3,3)}-${cleaned.substr(6)}`;
-              } else if (cleaned.length >= 3) {
-                  this.value = `(${cleaned.substr(0,3)}) ${cleaned.substr(3)}`;
-              } else {
-                  this.value = cleaned;
-              }
-          });
-      }
+      logoInput.addEventListener('change', function() {
+          const file = this.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                  const img = document.createElement('img');
+                  img.src = e.target.result;
+                  img.style.maxWidth = '200px';
+                  img.style.maxHeight = '200px';
+                  previewDiv.innerHTML = '';
+                  previewDiv.appendChild(img);
+              };
+              reader.readAsDataURL(file);
+          }
+      });
   });
 </script>
 {% endblock %}
