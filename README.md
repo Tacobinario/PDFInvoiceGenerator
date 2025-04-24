@@ -1,13 +1,13 @@
 # PDFInvoiceGenerator
 Flexible PDF INVOICE generator minimalist web interface, perfect for entrepreneurs looking for effectiveness!
 
-![Image](invoicePDFgeneratorimages/default-logo.png)
+![Image](invoicePDFgeneratorimages/default-logo.jpg)
 
 ![Image](invoicePDFgeneratorimages/invoice3.jpg)
 
-![Image](invoicePDFgeneratorimages/invoicepdf1.png)
+![Image](invoicePDFgeneratorimages/invoicepdf1.jpg)
 
-![Image](invoicePDFgeneratorimages/invoice2.png)
+![Image](invoicePDFgeneratorimages/invoice2.jpg)
 
 ## 🛠️ **Tecnologías utilizadas**
 
