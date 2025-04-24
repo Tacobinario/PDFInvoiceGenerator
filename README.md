@@ -1,15 +1,15 @@
 # PDFInvoiceGenerator
 Flexible PDF INVOICE generator minimalist web interface, perfect for entrepreneurs looking for effectiveness!
 
-<img src="invoicePDFgeneratorimages/invoice1.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdfhome.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf1.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf2.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf3.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf4.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf5.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoicepdf6.jpg" alt="Image" width="400" height="250">
-<img src="invoicePDFgeneratorimages/invoice3.jpg" alt="Image" width="400" height="250">
+<img src="invoicePDFgeneratorimages/invoice1.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdfhome.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf1.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf2.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf3.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf4.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf5.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoicepdf6.jpg" alt="Image" width="500" height="250">
+<img src="invoicePDFgeneratorimages/invoice3.jpg" alt="Image" width="500" height="250">
 
 ## 🛠️ **Tecnologías utilizadas**
 
