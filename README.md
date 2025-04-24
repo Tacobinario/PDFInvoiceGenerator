@@ -1,7 +1,7 @@
 # PDFInvoiceGenerator
 Flexible PDF INVOICE generator minimalist web interface, perfect for entrepreneurs looking for effectiveness!
 
-![Imagen de ejemplo](https://github.com/Tacobinario/PDFInvoiceGenerator/blob/main/invoicePDFgeneratorimages/default-logo.png){ width="50%" align="center" }
+![Imagen de ejemplo](invoicePDFgeneratorimages/invoiceDefaultlogo.jpg){ width="50%" align="center" }
 
 ## 🛠️ **Tecnologías utilizadas**
 
